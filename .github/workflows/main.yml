@@ -1,0 +1,16 @@
+name: CI Setup
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          host: ${{secrets.SERVER_IP}}
+          username: ${{secrets.SERVER_USER}}
+          key: ${{secrets.SERVER_SSH_KEY}}
+          script: |
+            cd "C:\Apache24\htdocs"
+            git pull origin main
