@@ -3,7 +3,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+<<<<<<< HEAD
 #莊閔祈
+=======
+#yeh
+>>>>>>> 242a858851556370d65cdcabc64a3f6478537896
 #湯子陞
 # C extensions
 *.so
