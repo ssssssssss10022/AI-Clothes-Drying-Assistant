@@ -11,6 +11,6 @@ jobs:
           host: ${{secrets.SERVER_IP}}
           username: ${{secrets.SERVER_USER}}
           key: ${{secrets.SERVER_SSH_KEY}}
-          script:
+          script: |
             cd "C:\Apache24\htdocs"
             git pull origin main
