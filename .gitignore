@@ -3,6 +3,7 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+#yeh
 #湯子陞
 # C extensions
 *.so
