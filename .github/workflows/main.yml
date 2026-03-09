@@ -9,6 +9,6 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Deploy to Apache Directory
-        run:
+        run: |
             cd "C:\Apache24\htdocs"
             git pull origin main
