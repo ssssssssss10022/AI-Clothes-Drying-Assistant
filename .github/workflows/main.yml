@@ -7,10 +7,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        with:
-          host: ${{secrets.SERVER_IP}}
-          username: ${{secrets.SERVER_USER}}
-          key: ${{secrets.SERVER_SSH_KEY}}
-          script: |
+      
+      - name: Deploy to Apache Directory
+        run:
             cd "C:\Apache24\htdocs"
             git pull origin main
