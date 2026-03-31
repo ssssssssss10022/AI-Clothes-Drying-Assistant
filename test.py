@@ -46,7 +46,7 @@ print("""
 </style>
 </head><body>
 """)
-
+print(f"<h3 style='color:red; background:yellow; text-align:center; padding: 10px;'>🔥 照妖鏡：我現在讀的資料庫是 {DB_PATH} 🔥</h3>")
 try:
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
