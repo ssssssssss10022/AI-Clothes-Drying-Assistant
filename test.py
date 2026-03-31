@@ -11,7 +11,7 @@ from datetime import datetime
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # 2. 資料庫路徑 (確保權限已開放給 Everyone)
-DB_PATH = r'C:\Users\aidryground\laundry.db'
+DB_PATH = r'C:\aidryground\data\laundry.db'
 
 print("Content-Type: text/html; charset=utf-8\n")
 print("<html><head><title>AIoT Smart Laundry Butler 戰情室</title>")
