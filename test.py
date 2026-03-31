@@ -10,14 +10,12 @@ from datetime import datetime
 # 1. 解決中文亂碼
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-# 2. 資料庫路徑
+# 2. 資料庫路徑 (確保權限已開放給 Everyone)
 DB_PATH = r'C:\aidryground\data\laundry.db'
 
 print("Content-Type: text/html; charset=utf-8\n")
 print("<html><head><title>AIoT Smart Laundry Butler 戰情室</title>")
-# 網頁每 5 秒自動更新一次
 print("<meta http-equiv='refresh' content='5'>") 
-# 引入 Chart.js 畫圖表
 print("<script src='https://cdn.jsdelivr.net/npm/chart.js'></script>")
 
 # --- CSS 樣式 ---
@@ -53,7 +51,7 @@ try:
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # --- 功能 1 & 5: 抓取使用者與曬衣場狀態 ---
+    # --- 查詢 1: 抓取使用者與曬衣場狀態 ---
     cursor.execute("""
         SELECT u.name, l.id, l.awning, l.curtain 
         FROM laundry l
@@ -64,7 +62,7 @@ try:
     laundry_info = cursor.fetchone()
     
     if not laundry_info:
-        print("<h2>系統尚未初始化或無資料</h2></body></html>")
+        print("<h2>系統尚未初始化或無資料，請先透過 MQTT 發送測試資料！</h2></body></html>")
         sys.exit()
         
     user_name, laundry_id, awning, curtain = laundry_info
@@ -85,11 +83,11 @@ try:
     <div class="dashboard">
     """)
 
-    # --- 功能 2 & 4 & 5: 抓取所有衣架的最新狀態與計算晾曬時間 ---
+    # --- 查詢 2: 從 pressure_log 抓取所有衣架的最新狀態 ---
     cursor.execute("""
         SELECT press_id, state, pressure_num, time 
-        FROM pressure 
-        WHERE id IN (SELECT MAX(id) FROM pressure GROUP BY press_id)
+        FROM pressure_log 
+        WHERE id IN (SELECT MAX(id) FROM pressure_log GROUP BY press_id)
         ORDER BY press_id
     """)
     sensors = cursor.fetchall()
@@ -100,12 +98,12 @@ try:
         for sensor in sensors:
             press_id, state, p_num, last_time = sensor
             
-            # 計算已晾曬時間 (找出從上一次 'no' 變成 'wet' 的起始時間)
+            # 計算已晾曬時間 (從 pressure_log 撈取上一次 no 到 wet 的時間點)
             duration_str = "--"
             if state == 'wet':
                 cursor.execute("""
-                    SELECT MIN(time) FROM pressure 
-                    WHERE press_id=? AND id > IFNULL((SELECT MAX(id) FROM pressure WHERE press_id=? AND state='no'), 0)
+                    SELECT MIN(time) FROM pressure_log 
+                    WHERE press_id=? AND id > IFNULL((SELECT MAX(id) FROM pressure_log WHERE press_id=? AND state='no'), 0)
                 """, (press_id, press_id))
                 start_time_row = cursor.fetchone()
                 if start_time_row and start_time_row[0]:
@@ -144,16 +142,14 @@ try:
 
     print("</div>") # dashboard 結束
 
-    # --- 功能 6: 抓取歷史日誌畫折線圖 ---
-    cursor.execute("SELECT time, temperature, humidity FROM clothes_pole ORDER BY id DESC LIMIT 15")
+    # --- 查詢 3: 從 clothes_pole_log 抓取環境歷史畫折線圖 ---
+    cursor.execute("SELECT time, temperature, humidity FROM clothes_pole_log ORDER BY id DESC LIMIT 15")
     rows = cursor.fetchall()
     
-    # 將資料反轉，變成從舊到新 (時間軸從左到右)
-    time_labels = [r[0][11:16] for r in reversed(rows)] # 只取 HH:MM
+    time_labels = [r[0][11:16] for r in reversed(rows)] 
     temps = [r[1] for r in reversed(rows)]
     hums = [r[2] for r in reversed(rows)]
 
-    # 輸出圖表容器與 JavaScript
     print(f"""
     <div class="chart-container">
         <h3 style="text-align:center; margin-top:0;">🌡️ 近期溫濕度歷史軌跡</h3>
