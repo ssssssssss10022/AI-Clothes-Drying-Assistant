@@ -171,8 +171,18 @@ try:
                 <div class="icon">{icon}</div>
                 <div class="state-title">{title}</div>
                 <div class="detail-text">{sub_text}</div>
-                <div class="detail-text" style="margin-top:15px;">目前壓力值: <span class="weight-val">{p_num}</span></div>
-                <div class="detail-text" style="font-size: 11px; color:#aaa;">更新: {last_time}</div>
+                
+                <div style="margin-top:20px; text-align: left; padding: 0 10px;">
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; color: #777; margin-bottom: 5px;">
+                        <span>⚖️ 重量負載</span>
+                        <span style="font-weight: bold; color: {bar_color};">{p_percent}%</span>
+                    </div>
+                    <div style="background: #ecf0f1; border-radius: 10px; height: 10px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: {bar_color}; width: {p_percent}%; height: 100%; transition: width 0.5s ease;"></div>
+                    </div>
+                </div>
+                
+                <div class="detail-text" style="font-size: 11px; color:#aaa; margin-top: 15px;">更新: {last_time}</div>
             </div>
             """)
 
