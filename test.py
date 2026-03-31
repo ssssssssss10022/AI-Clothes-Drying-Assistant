@@ -11,7 +11,7 @@ from datetime import datetime
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # 2. 資料庫路徑 (確保權限已開放給 Everyone)
-DB_PATH = r'C:\Users\Public\aidryground\laundry.db'
+DB_PATH = r'C:\Users\aidryground\laundry.db'
 
 print("Content-Type: text/html; charset=utf-8\n")
 print("<html><head><title>AIoT Smart Laundry Butler 戰情室</title>")
@@ -46,7 +46,7 @@ print("""
 </style>
 </head><body>
 """)
-print(f"<h3 style='color:red; background:yellow; text-align:center; padding: 10px;'>🔥 照妖鏡：我現在讀的資料庫是 {DB_PATH} 🔥</h3>")
+
 try:
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
