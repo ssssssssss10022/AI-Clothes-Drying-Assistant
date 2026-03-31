@@ -66,8 +66,8 @@ try:
         sys.exit()
         
     user_name, laundry_id, awning, curtain = laundry_info
-    awning_html = "<span class='badge badge-on'>☔ 遮雨棚：伸出擋雨中</span>" if awning else "<span class='badge badge-off'>☀️ 遮雨棚：收起</span>"
-    curtain_html = "<span class='badge badge-on'>🪟 內拉簾：關閉</span>" if curtain else "<span class='badge badge-off'>🪟 內拉簾：開啟</span>"
+    awning_html = "<span class='badge badge-on'>外拉簾：已降下</span>" if awning else "<span class='badge badge-off'>外拉簾：已收起</span>"
+    curtain_html = "<span class='badge badge-on'>內拉簾：已降下</span>" if curtain else "<span class='badge badge-off'>內拉簾：已收起</span>"
 
     print(f"""
     <div class="header">
