@@ -165,6 +165,10 @@ try:
                 sub_text = "目前無衣物"
                 p_num = 0
 
+            p_percent = min(int((p_num / 4000) * 100), 100)
+
+            bar_color = "#3498db" if p_percent > 50 else "#f39c12"
+
             print(f"""
             <div class="card {card_cls}">
                 <div class="press-id">{press_id}</div>
