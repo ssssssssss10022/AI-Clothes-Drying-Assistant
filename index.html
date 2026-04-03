@@ -178,7 +178,13 @@
                                 { label: '濕度 (%)', data: data.chart.hums, borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.1)', yAxisID: 'y1', tension: 0.3, fill: true }
                             ]
                         },
-                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } }
+                        options: { responsive: true,layout: {
+                padding: {
+                    // *** 最重要的一點：增加上方留白 ***
+                    left:20,
+                    right:20// 如果文字離邊緣太近，可以再調大這個數字
+                }
+            }, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } }
                     });
 
                 } else {
