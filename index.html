@@ -53,28 +53,31 @@
     <script>
         let envChart = null;
 
-        // --- 1. 定義頂部標籤外掛 (放在這裡最安全) ---
         const topLabelsPlugin = {
-            id: 'topLabels',
-            afterDraw(chart) {
-                const { ctx, chartArea: { top, left, right } } = chart;
-                ctx.save();
-                ctx.font = 'bold 14px "Microsoft JhengHei", sans-serif';
-                ctx.textBaseline = 'bottom';
+    id: 'topLabels',
+    afterDraw(chart) {
+        // 從 chart.scales 抓取 y(左軸) 與 y1(右軸) 的資料
+        const { ctx, scales: { y, y1 }, chartArea: { top } } = chart;
+        ctx.save();
+        
+        ctx.font = 'bold 14px "Microsoft JhengHei", sans-serif';
+        ctx.textBaseline = 'bottom';
+        ctx.textAlign = 'center'; // 設定為「置中」對齊
 
-                // 畫左邊的「溫度 (°C)」
-                ctx.fillStyle = '#e74c3c';
-                ctx.textAlign = 'left';
-                ctx.fillText('溫度 (°C)', left, top - 10);
+        // 1. 計算左邊 Y 軸數字區域的中心點
+        // y.left 是最左邊界，y.right 是軸線位置，相加除以 2 就是數字的正上方
+        const yCenterX = (y.left + y.right) / 2;
+        ctx.fillStyle = '#e74c3c'; // 溫度顏色
+        ctx.fillText('溫度 (°C)', yCenterX, top - 10);
 
-                // 畫右邊的「濕度 (%)」
-                ctx.fillStyle = '#3498db';
-                ctx.textAlign = 'right';
-                ctx.fillText('濕度 (%)', right, top - 10);
+        // 2. 計算右邊 Y 軸數字區域的中心點
+        const y1CenterX = (y1.left + y1.right) / 2;
+        ctx.fillStyle = '#3498db'; // 濕度顏色
+        ctx.fillText('濕度 (%)', y1CenterX, top - 10);
 
-                ctx.restore();
-            }
-        };
+        ctx.restore();
+    }
+};
         
         // 取得網址上的 ?room= 參數
         const urlParams = new URLSearchParams(window.location.search);
