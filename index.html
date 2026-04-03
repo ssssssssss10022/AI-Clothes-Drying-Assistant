@@ -151,40 +151,26 @@
                                 { label: '濕度 (%)', data: data.chart.hums, borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.1)', yAxisID: 'y1', tension: 0.3, fill: true }
                             ]
                         },
-                        options: { responsive: true, 
-                            // 1. 增加圖表上方的留白，確保水平文字不會被切掉
-                        layout: {
-                            padding: {
-                                top: 50,
-                                left: 20,
-                                right: 20
-                            }
-                         },interaction: { mode: 'index', intersect: false }, 
+                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, 
                          scales: {
                              y: { type: 'linear',display: true,position: 'left',title: {
                          display: true,      // 顯示標題
                          text: '溫度 (°C)',   // 標題文字
                          color: '#e74c3c',   // 文字顏色 (可選)
                          align: 'end',       // 1. 將標題對齊到軸線的「末端」(即最上方)
-                         rotation: 0,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
+                         rotation: 90,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
                          
-                         font: { size: 14, weight: 'bold' },
-                         padding: {
-                    bottom: 30,     // 與下方數字的間距
-                    left: 30        // 視圖片大小向右微調，讓它看起來在軸線正上方
-                }
+                         font: { size: 14, weight: 'bold' }
+                       
                              } }, 
                              y1: { type: 'linear',display: true, position: 'right', title: {
                          display: true,      // 顯示標題
                          text: '濕度 (%)',    // 標題文字
                          align: 'end',       // 1. 將標題對齊到軸線的「末端」(即最上方)
-                         rotation: 0,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
+                         rotation: 90,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
                          color: '#3498db',   // 文字顏色 (可選)
                          
-                         font: { size: 14, weight: 'bold' },padding: {
-                    bottom: 30,     // 與下方數字的間距
-                    right: 30        // 視圖片大小向右微調，讓它看起來在軸線正上方
-                }
+                         font: { size: 14, weight: 'bold' }
                           },grid: { drawOnChartArea: false } } } }
                              });
                 } else {
