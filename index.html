@@ -23,7 +23,7 @@
         .press-id { color: #888; font-size: 12px; margin-bottom: 5px; }
         .state-title { font-size: 28px; font-weight: bold; margin-bottom: 15px; }
         .detail-text { font-size: 14px; color: #555; margin: 5px 0; }
-        .chart-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 800px; margin: 0 auto; }
+        .chart-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); width: 100%; max-width: 900px; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -151,7 +151,18 @@
                                 { label: '濕度 (%)', data: data.chart.hums, borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.1)', yAxisID: 'y1', tension: 0.3, fill: true }
                             ]
                         },
-                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } }
+                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear',position: 'left',title: {
+                display: true,      // 顯示標題
+                text: '溫度 (°C)',   // 標題文字
+                color: '#e74c3c',   // 文字顏色 (可選)
+                font: { size: 14, weight: 'bold' }
+                    } }, 
+                    y1: { type: 'linear', position: 'right', title: {
+                display: true,      // 顯示標題
+                text: '濕度 (%)',    // 標題文字
+                color: '#3498db',   // 文字顏色 (可選)
+                font: { size: 14, weight: 'bold' }
+            },grid: { drawOnChartArea: false } } } }
                     });
                 } else {
                     envChart.data.labels = data.chart.labels;
