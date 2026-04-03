@@ -52,6 +52,29 @@
 
     <script>
         let envChart = null;
+
+        // --- 1. 定義頂部標籤外掛 (放在這裡最安全) ---
+        const topLabelsPlugin = {
+            id: 'topLabels',
+            afterDraw(chart) {
+                const { ctx, chartArea: { top, left, right } } = chart;
+                ctx.save();
+                ctx.font = 'bold 14px "Microsoft JhengHei", sans-serif';
+                ctx.textBaseline = 'bottom';
+
+                // 畫左邊的「溫度 (°C)」
+                ctx.fillStyle = '#e74c3c';
+                ctx.textAlign = 'left';
+                ctx.fillText('溫度 (°C)', left, top - 10);
+
+                // 畫右邊的「濕度 (%)」
+                ctx.fillStyle = '#3498db';
+                ctx.textAlign = 'right';
+                ctx.fillText('濕度 (%)', right, top - 10);
+
+                ctx.restore();
+            }
+        };
         
         // 取得網址上的 ?room= 參數
         const urlParams = new URLSearchParams(window.location.search);
@@ -144,6 +167,7 @@
                     const ctx = document.getElementById('envChart').getContext('2d');
                     envChart = new Chart(ctx, {
                         type: 'line',
+                        plugins: [topLabelsPlugin], // 加入外掛
                         data: {
                             labels: data.chart.labels,
                             datasets: [
@@ -151,28 +175,9 @@
                                 { label: '濕度 (%)', data: data.chart.hums, borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.1)', yAxisID: 'y1', tension: 0.3, fill: true }
                             ]
                         },
-                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, 
-                         scales: {
-                             y: { type: 'linear',display: true,position: 'left',title: {
-                         display: true,      // 顯示標題
-                         text: '溫度 (°C)',   // 標題文字
-                         color: '#e74c3c',   // 文字顏色 (可選)
-                         align: 'end',       // 1. 將標題對齊到軸線的「末端」(即最上方)
-                         rotation: 90,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
-                         
-                         font: { size: 14, weight: 'bold' }
-                       
-                             } }, 
-                             y1: { type: 'linear',display: true, position: 'right', title: {
-                         display: true,      // 顯示標題
-                         text: '濕度 (%)',    // 標題文字
-                         align: 'end',       // 1. 將標題對齊到軸線的「末端」(即最上方)
-                         rotation: 90,        // 2. 將文字旋轉回 0 度 (水平)，方便閱讀
-                         color: '#3498db',   // 文字顏色 (可選)
-                         
-                         font: { size: 14, weight: 'bold' }
-                          },grid: { drawOnChartArea: false } } } }
-                             });
+                        options: { responsive: true, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } }
+                    });
+
                 } else {
                     envChart.data.labels = data.chart.labels;
                     envChart.data.datasets[0].data = data.chart.temps;
