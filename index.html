@@ -172,7 +172,7 @@
                         type: 'line',
                         plugins: [topLabelsPlugin], // 加入外掛
                         data: {
-                            labels: data.chart.labels,
+                            labels: data.chart.labels,  
                             datasets: [
                                 { label: '溫度 (°C)', data: data.chart.temps, borderColor: '#e74c3c', backgroundColor: 'rgba(231, 76, 60, 0.1)', yAxisID: 'y', tension: 0.3, fill: true },
                                 { label: '濕度 (%)', data: data.chart.hums, borderColor: '#3498db', backgroundColor: 'rgba(52, 152, 219, 0.1)', yAxisID: 'y1', tension: 0.3, fill: true }
@@ -184,7 +184,7 @@
                     left:20,
                     right:20// 如果文字離邊緣太近，可以再調大這個數字
                 }
-            }, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left' }, y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false } } } }
+            }, interaction: { mode: 'index', intersect: false }, scales: { y: { type: 'linear', position: 'left',min:-20,max:100,ticks:{stepSizes:10} }, y1: { type: 'linear', position: 'right', min:0,max:100,ticks:{stepSizes:10},grid: { drawOnChartArea: false } } } }
                     });
 
                 } else {
